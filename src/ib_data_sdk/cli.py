@@ -24,15 +24,18 @@ console = Console()
 def get_data(
     symbol: str = typer.Argument(..., help="Stock symbol to retrieve data for"),
     duration: Duration = typer.Option(
-        Duration.DAY_1.value,
+        Duration.DAY_1,
+        case_sensitive=False,
         help="Duration of data to retrieve",
     ),
     bar_size: BarSize = typer.Option(
-        BarSize.MIN_5.value,
+        BarSize.MIN_5,
+        case_sensitive=False,
         help="Bar size for the data",
     ),
     data_type: DataType = typer.Option(
-        DataType.TRADES.value,
+        DataType.TRADES,
+        case_sensitive=False,
         help="Type of data to retrieve",
     ),
     output: Optional[str] = typer.Option(None, help="Output file (CSV format)"),
