@@ -20,6 +20,9 @@ jobs:
       - name: Install build tools
         run: pip install --upgrade build twine
 
+      - name: Clean previous distributions
+        run: rm -rf dist/* || true
+
       - name: Build package
         run: python -m build
 
