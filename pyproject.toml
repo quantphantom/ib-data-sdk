@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ib-data-sdk"
-version = "0.1.5"
+version = "0.1.6"
 description = "Interactive Brokers Data SDK"
 readme = "README.md"
 requires-python = ">=3.8"

@@ -1,7 +1,7 @@
-from enum import StrEnum
+from enum import Enum
 
 
-class AssetType(StrEnum):
+class AssetType(Enum):
     """Asset types supported by IB."""
 
     STK = "STK"  # Stock
@@ -11,7 +11,7 @@ class AssetType(StrEnum):
     IND = "IND"  # Index
 
 
-class BarSize(StrEnum):
+class BarSize(Enum):
     """Bar sizes for historical data."""
 
     SEC_1 = "1 sec"
@@ -37,7 +37,7 @@ class BarSize(StrEnum):
     MONTH_1 = "1 month"
 
 
-class Duration(StrEnum):
+class Duration(Enum):
     """Duration strings for historical data requests."""
 
     DAY_1 = "1 D"
@@ -54,7 +54,7 @@ class Duration(StrEnum):
     YEARS_2 = "2 Y"
 
 
-class DataType(StrEnum):
+class DataType(Enum):
     """Types of data that can be requested."""
 
     TRADES = "TRADES"
