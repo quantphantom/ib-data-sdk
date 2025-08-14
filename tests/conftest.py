@@ -13,11 +13,7 @@ from ib_data_sdk.processors import TradesDataProcessor, BidAskDataProcessor
 @pytest.fixture
 def mock_env_vars():
     """Mock environment variables for testing."""
-    env_vars = {
-        'TWS_HOST': '127.0.0.1',
-        'TWS_PORT': '7497',
-        'TWS_CLIENT_ID': '1'
-    }
+    env_vars = {"TWS_HOST": "127.0.0.1", "TWS_PORT": "7497", "TWS_CLIENT_ID": "1"}
     with patch.dict(os.environ, env_vars):
         yield env_vars
 
@@ -31,7 +27,7 @@ def sample_historical_request():
         bar_size=BarSize.MIN_5,
         asset_type=AssetType.STK,
         exchange="SMART",
-        data_type=DataType.TRADES
+        data_type=DataType.TRADES,
     )
 
 
@@ -47,7 +43,7 @@ def sample_options_request():
         data_type=DataType.TRADES,
         expiry="20240119",
         strike=150.0,
-        right="C"
+        right="C",
     )
 
 
@@ -71,10 +67,10 @@ def sample_trades_data():
         {
             "date": "20240115 09:30:00",
             "open": 150.25,
-            "high": 151.50, 
+            "high": 151.50,
             "low": 149.75,
             "close": 150.80,
-            "volume": 1000
+            "volume": 1000,
         },
         {
             "date": "20240115 09:35:00",
@@ -82,8 +78,8 @@ def sample_trades_data():
             "high": 151.20,
             "low": 150.10,
             "close": 150.90,
-            "volume": 800
-        }
+            "volume": 800,
+        },
     ]
 
 
@@ -91,19 +87,20 @@ def sample_trades_data():
 def sample_dataframe(sample_trades_data):
     """Sample pandas DataFrame."""
     df = pd.DataFrame(sample_trades_data)
-    df['date'] = pd.to_datetime(df['date'])
-    df.set_index('date', inplace=True)
+    df["date"] = pd.to_datetime(df["date"])
+    df.set_index("date", inplace=True)
     return df
 
 
 @pytest.fixture
 def mock_ib_client(mock_env_vars):
     """Mock IBDataClient with connection methods patched."""
-    with patch('ib_data_sdk.client.EClient.__init__'), \
-         patch('ib_data_sdk.client.IBDataClient.connect'), \
-         patch('ib_data_sdk.client.IBDataClient.run'), \
-         patch('ib_data_sdk.client.IBDataClient.isConnected', return_value=True):
-        
+    with patch("ib_data_sdk.client.EClient.__init__"), patch(
+        "ib_data_sdk.client.IBDataClient.connect"
+    ), patch("ib_data_sdk.client.IBDataClient.run"), patch(
+        "ib_data_sdk.client.IBDataClient.isConnected", return_value=True
+    ):
+
         client = IBDataClient()
         client.connected_event = Mock()
         client.connected_event.wait = Mock(return_value=True)
@@ -124,10 +121,11 @@ def mock_contract():
 
 class MockThread:
     """Mock thread that doesn't actually start."""
+
     def __init__(self, target=None, daemon=None):
         self.target = target
         self.daemon = daemon
-    
+
     def start(self):
         pass
 
@@ -135,5 +133,5 @@ class MockThread:
 @pytest.fixture
 def mock_thread():
     """Mock threading.Thread."""
-    with patch('ib_data_sdk.client.Thread', MockThread):
+    with patch("ib_data_sdk.client.Thread", MockThread):
         yield

@@ -14,9 +14,9 @@ class TestHistoricalDataRequest:
             symbol="AAPL",
             duration=Duration.DAY_1,
             bar_size=BarSize.MIN_5,
-            data_type=DataType.TRADES
+            data_type=DataType.TRADES,
         )
-        
+
         assert request.symbol == "AAPL"
         assert request.asset_type == AssetType.STK  # Default
         assert request.exchange == "SMART"  # Default
@@ -28,9 +28,9 @@ class TestHistoricalDataRequest:
             asset_type=AssetType.OPT,
             expiry="20240119",
             strike=150.0,
-            right="C"
+            right="C",
         )
-        
+
         assert request.asset_type == AssetType.OPT
         assert request.expiry == "20240119"
         assert request.strike == 150.0
@@ -41,7 +41,7 @@ class TestHistoricalDataRequest:
         # Empty symbol should raise error
         with pytest.raises(PydanticValidationError, match="Symbol cannot be empty"):
             HistoricalDataRequest(symbol="")
-        
+
         # Whitespace-only symbol should raise error
         with pytest.raises(PydanticValidationError, match="Symbol cannot be empty"):
             HistoricalDataRequest(symbol="   ")
@@ -53,13 +53,15 @@ class TestHistoricalDataRequest:
 
     def test_expiry_validation(self):
         """Test expiry date validation."""
-        with pytest.raises(PydanticValidationError, match="Expiry must be in YYYYMMDD format"):
+        with pytest.raises(
+            PydanticValidationError, match="Expiry must be in YYYYMMDD format"
+        ):
             HistoricalDataRequest(
                 symbol="AAPL",
                 asset_type=AssetType.OPT,
                 expiry="2024-01-19",  # Wrong format
                 strike=150.0,
-                right="C"
+                right="C",
             )
 
     def test_option_right_validation(self):
@@ -71,18 +73,20 @@ class TestHistoricalDataRequest:
                 asset_type=AssetType.OPT,
                 expiry="20240119",
                 strike=150.0,
-                right=right
+                right=right,
             )
             assert request.right in ["C", "P", "CALL", "PUT"]
-        
+
         # Invalid right
-        with pytest.raises(PydanticValidationError, match="Right must be C, P, CALL, or PUT"):
+        with pytest.raises(
+            PydanticValidationError, match="Right must be C, P, CALL, or PUT"
+        ):
             HistoricalDataRequest(
                 symbol="AAPL",
                 asset_type=AssetType.OPT,
-                expiry="20240119", 
+                expiry="20240119",
                 strike=150.0,
-                right="X"
+                right="X",
             )
 
 
@@ -94,9 +98,9 @@ class TestHistoricalDataResponse:
         response = HistoricalDataResponse(
             request=sample_historical_request,
             data=sample_trades_data,
-            record_count=len(sample_trades_data)
+            record_count=len(sample_trades_data),
         )
-        
+
         assert response.request == sample_historical_request
         assert response.data == sample_trades_data
         assert response.record_count == 2
