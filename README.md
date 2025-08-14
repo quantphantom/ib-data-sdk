@@ -63,10 +63,10 @@ client.disconnect_from_ib()
 
 ```bash
 # Get daily AAPL data
-ib-data-sdk get-data AAPL --duration DAY_1 --bar-size MIN_5
+ib-data-sdk get-data AAPL --duration '1 D' --bar-size '5 mins'
 
 # Save to file
-ib-data-sdk get-data AAPL --output aapl_data.csv
+ib-data-sdk get-data AAPL --duration '1 D' --bar-size '5 mins' --output aapl_data.csv
 
 # List available options
 ib-data-sdk list-enums
