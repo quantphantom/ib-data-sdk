@@ -24,11 +24,16 @@ console = Console()
 def get_data(
     symbol: str = typer.Argument(..., help="Stock symbol to retrieve data for"),
     duration: Duration = typer.Option(
-        Duration.DAY_1, help="Duration of data to retrieve"
+        Duration.DAY_1.value,
+        help="Duration of data to retrieve",
     ),
-    bar_size: BarSize = typer.Option(BarSize.MIN_5, help="Bar size for the data"),
+    bar_size: BarSize = typer.Option(
+        BarSize.MIN_5.value,
+        help="Bar size for the data",
+    ),
     data_type: DataType = typer.Option(
-        DataType.TRADES, help="Type of data to retrieve"
+        DataType.TRADES.value,
+        help="Type of data to retrieve",
     ),
     output: Optional[str] = typer.Option(None, help="Output file (CSV format)"),
     display: bool = typer.Option(True, help="Display data in terminal"),
@@ -43,7 +48,10 @@ def get_data(
         # Create client and request
         client = IBDataClient()
         request = HistoricalDataRequest(
-            symbol=symbol, duration=duration, bar_size=bar_size, data_type=data_type
+            symbol=symbol,
+            duration=duration,
+            bar_size=bar_size,
+            data_type=data_type,
         )
 
         # Get data with progress indication
@@ -62,11 +70,10 @@ def get_data(
             for column in df.columns:
                 table.add_column(column)
 
-            # Show first 10 rows
-            for idx, row in df.head(10).iterrows():
+            for idx, row in df.head(20).iterrows():
                 table.add_row(*[str(val) for val in row])
 
-            if len(df) > 10:
+            if len(df) > 20:
                 table.add_row(*["..." for _ in df.columns])
 
             console.print(table)
@@ -78,6 +85,7 @@ def get_data(
 
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
+
         raise typer.Exit(1)
 
     finally:
