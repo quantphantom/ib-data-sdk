@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any
+from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel, Field, validator
 from .enums import AssetType, BarSize, Duration, DataType
@@ -44,7 +44,7 @@ class HistoricalDataResponse(BaseModel):
     """Model for historical data responses."""
 
     request: HistoricalDataRequest
-    data: List[Dict[str, Any]]
+    data: list[dict[str, any]]
     retrieved_at: datetime = Field(default_factory=datetime.now)
     record_count: int = Field(..., description="Number of records retrieved")
 
